@@ -5,6 +5,8 @@ import com.slippery.booklibrary.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService{
@@ -15,31 +17,56 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    public List<Book> getAllBooks() {
+        return repository.findAll();
+    }
+
+    @Override
+    public Book findBookById(Long id) {
+        return repository.findById(id).orElseThrow();
+    }
+
+    @Override
     public Book createBook(Book book) {
         return repository.save(book);
     }
 
     @Override
-    public Book updateBook(Book bookDetails) {
-        if(repository.findById(bookDetails.getId()).isPresent()){
-            repository.delete(repository.findById(bookDetails.getId()).orElseThrow());
-            return repository.save(bookDetails);
+    public Book updateBook(Book bookDetails,Long id) {
+        if(repository.findById(id).isPresent()){
+            repository.delete(repository.findById(id).orElseThrow());
+
+        }else{
+            throw new RuntimeException("book not found");
         }
-        return null;
+        return repository.save(bookDetails);
     }
 
     @Override
     public Book deleteBookById(Long id) {
-        return null;
+        if(repository.findById(id).isEmpty()){
+            throw new RuntimeException("book with id "+id+"not found");
+        }
+        repository.deleteById(id);
+        return repository.findById(id).orElseThrow();
     }
 
     @Override
-    public Book deleteAllBooks(Book bookDetails) {
-        return null;
+    public void deleteAllBooks() {
+        repository.deleteAll();
     }
 
     @Override
     public List<Book> getBookByName(String name) {
-        return List.of();
+        return repository.findAll().stream()
+                .filter(book->book.getBookTitle().toLowerCase().contains(name.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Book> getBookByAuthor(String author) {
+        return repository.findAll().stream()
+                .filter(book->book.getBookTitle().toLowerCase().contains(author.toLowerCase()))
+                .collect(Collectors.toList());
     }
 }
