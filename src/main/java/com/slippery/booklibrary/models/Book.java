@@ -15,11 +15,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Book {
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String bookName;
-    private String author;
-    private String publicationYear;
-    private Boolean isAvailable;
+    private Long isbn;
+    private String bookTitle;
+    private String bookAuthor;
+    private String yearOfPublication;
+    private String publisher;
+    private String imageUrl;
+
 }
