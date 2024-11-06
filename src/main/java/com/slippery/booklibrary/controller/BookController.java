@@ -10,11 +10,7 @@ import java.util.List;
 @RequestMapping("/book")
 public class BookController {
 
-//    Book deleteBookById(Long id);
-//    void deleteAllBooks();
-//    ;
-//    List<Book> getBookByAuthor(String author);
-    private final  BookService service;
+    private final BookService service;
 
     public BookController(BookService service) {
         this.service = service;
@@ -40,7 +36,7 @@ public class BookController {
     public List<Book> getBookByName(@RequestParam String name){
         return service.getBookByName(name);
     }
-    @GetMapping("/get/name")
+    @GetMapping("/get/author")
     public List<Book> getBookByAuthor(@RequestParam String name){
         return service.getBookByAuthor(name);
     }
