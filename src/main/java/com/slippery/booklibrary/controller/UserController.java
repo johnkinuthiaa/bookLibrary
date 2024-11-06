@@ -16,8 +16,6 @@ public class UserController {
         this.service = service;
     }
 
-//    ;
-
 
     @PostMapping("/register")
     public User register(@RequestBody User user){
