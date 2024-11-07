@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService{
     private final UserRepository repository;
@@ -37,5 +39,27 @@ public class UserServiceImpl implements UserService{
             return service.generateJwtToken(user.getUsername());
         }
         return "fail";
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return repository.findAll();
+    }
+
+    @Override
+    public User findUserById(Long id) {
+        return repository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public void deleteUserById(Long id) {
+        if(repository.findById(id).isPresent()){
+            repository.delete(repository.findById(id).orElseThrow());
+        }
+    }
+
+    @Override
+    public void deleteAllUsers() {
+        repository.deleteAll();
     }
 }
