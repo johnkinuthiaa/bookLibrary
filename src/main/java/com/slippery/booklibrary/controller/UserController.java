@@ -1,8 +1,11 @@
 package com.slippery.booklibrary.controller;
 
+import com.slippery.booklibrary.dto.JwtKeyDto;
 import com.slippery.booklibrary.models.User;
 import com.slippery.booklibrary.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,14 +23,18 @@ public class UserController {
         return service.register(user);
     }
     @PostMapping("/login")
-    public String login(@RequestBody User user){
+//    public String login(@RequestBody User user){
+//        return service.login(user);
+//    }
+    public JwtKeyDto login(@RequestBody User user){
+        System.out.println(service.login(user));
         return service.login(user);
     }
-    @GetMapping("/find/all")
+    @GetMapping("/admin/find/all")
     public ResponseEntity<List<User>> findAllUsers(){
         return ResponseEntity.ok(service.findAllUsers());
     }
-    @GetMapping("/find/id")
+    @GetMapping("/admin/find/id")
     public ResponseEntity<User> findUserById(@RequestParam Long id){
         return ResponseEntity.ok(service.findUserById(id));
     }
@@ -35,9 +42,15 @@ public class UserController {
     public void deleteUserById(@RequestParam Long id){
         service.deleteUserById(id);
     }
-    @DeleteMapping("/delete/all")
+    @DeleteMapping("/adminuser/delete/all")
     public void deleteAllUsers(){
         service.deleteAllUsers();
     }
+//    @GetMapping("/adminuser/get/profile")
+//    public ResponseEntity<User> getProfile(){
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//
+//    }
 
 }

@@ -1,5 +1,6 @@
 package com.slippery.booklibrary.service;
 
+import com.slippery.booklibrary.dto.JwtKeyDto;
 import com.slippery.booklibrary.models.User;
 import com.slippery.booklibrary.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,14 +32,33 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public String login(User user) {
+//    public String login(User user) {
+//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+//                user.getUsername(),
+//                user.getPassword()));
+//        if (authentication.isAuthenticated()) {
+//            service.refreshJwtToken(user.getUsername());
+//            return service.generateJwtToken(user.getUsername());
+//        }
+//        return "fail";
+//    }
+    public JwtKeyDto login(User user) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 user.getUsername(),
                 user.getPassword()));
         if (authentication.isAuthenticated()) {
-            return service.generateJwtToken(user.getUsername());
+            service.refreshJwtToken(user.getUsername());
+            return service.refreshJwtToken(user.getUsername());
         }
-        return "fail";
+        return null;
+    }
+
+    @Override
+    public User updateUser(User user) {
+        if(repository.findByUsername(user.getUsername()) !=null ||repository.findUserByEmail(user.getEmail()) !=null){
+            repository.save(user);
+        }
+        return null;
     }
 
     @Override

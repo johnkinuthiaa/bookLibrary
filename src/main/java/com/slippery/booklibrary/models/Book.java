@@ -1,9 +1,6 @@
 package com.slippery.booklibrary.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,11 +15,15 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long isbn;
+    private String isbn;
     private String bookTitle;
     private String bookAuthor;
-    private String yearOfPublication;
+    private Integer yearOfPublication;
     private String publisher;
     private String imageUrl;
+    private boolean isBorrowed;
+    @ManyToOne
+    @JoinColumn(name = "borrowed_by_id")
+    private User borrowedBy;
 
 }

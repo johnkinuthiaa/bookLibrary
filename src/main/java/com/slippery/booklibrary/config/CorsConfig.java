@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000", "http://localhost:63342")
+                        .allowedOrigins("https://book-store-ui-ten.vercel.app")
                         .allowedMethods("GET","DELETE","POST","PUT");
             }
         };
